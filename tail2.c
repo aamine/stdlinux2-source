@@ -1,3 +1,7 @@
+/*
+    tail2 -- simple tail command with no line length limitation
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
