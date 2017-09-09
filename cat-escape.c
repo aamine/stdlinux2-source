@@ -1,7 +1,7 @@
 /*
-    cat-escape.c -- cat command visualizing \t and \n
+    cat-escape.c -- cat command which escapes \t and \n
 
-    Copyright (c) 2005 Minero Aoki
+    Copyright (c) 2017 Minero Aoki
 
     This program is free software.
     Redistribution and use in source and binary forms,

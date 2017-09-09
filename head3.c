@@ -4,7 +4,6 @@
 
 static void do_head(FILE *f, long nlines);
 
-/* #@@range_begin(main) */
 #define DEFAULT_N_LINES 10
 
 int
@@ -42,7 +41,6 @@ main(int argc, char *argv[])
     }
     exit(0);
 }
-/* #@@range_end(main) */
 
 static void
 do_head(FILE *f, long nlines)

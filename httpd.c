@@ -1,7 +1,7 @@
 /*
     httpd.c
     
-    Copyright (c) 2004,2005 Minero Aoki
+    Copyright (c) 2004,2005,2017 Minero Aoki
 
     This program is free software.
     Redistribution and use in source and binary forms,
@@ -24,18 +24,15 @@
 
 /****** Constants ********************************************************/
 
-/* #@@range_begin(generic_constants) */
 #define SERVER_NAME "LittleHTTP"
 #define SERVER_VERSION "1.0"
 #define HTTP_MINOR_VERSION 0
 #define BLOCK_BUF_SIZE 1024
 #define LINE_BUF_SIZE 4096
 #define MAX_REQUEST_BODY_LENGTH (1024 * 1024)
-/* #@@range_end(generic_constants) */
 
 /****** Data Type Definitions ********************************************/
 
-/* #@@range_begin(struct_HTTPRequest) */
 struct HTTPHeaderField {
     char *name;
     char *value;
@@ -50,15 +47,12 @@ struct HTTPRequest {
     char *body;
     long length;
 };
-/* #@@range_end(struct_HTTPRequest) */
 
-/* #@@range_begin(struct_FileInfo) */
 struct FileInfo {
     char *path;
     long size;
     int ok;
 };
-/* #@@range_end(struct_FileInfo) */
 
 /****** Function Prototypes **********************************************/
 
@@ -89,7 +83,6 @@ static void log_exit(char *fmt, ...);
 
 /****** Functions ********************************************************/
 
-/* #@@range_begin(main) */
 int
 main(int argc, char *argv[])
 {
@@ -101,9 +94,7 @@ main(int argc, char *argv[])
     service(stdin, stdout, argv[1]);
     exit(0);
 }
-/* #@@range_end(main) */
 
-/* #@@range_begin(signals) */
 static void
 install_signal_handlers(void)
 {
@@ -127,9 +118,7 @@ signal_exit(int sig)
 {
     log_exit("exit by signal %d", sig);
 }
-/* #@@range_end(signals) */
 
-/* #@@range_begin(service) */
 static void
 service(FILE *in, FILE *out, char *docroot)
 {
@@ -139,9 +128,7 @@ service(FILE *in, FILE *out, char *docroot)
     respond_to(req, out, docroot);
     free_request(req);
 }
-/* #@@range_end(service) */
 
-/* #@@range_begin(read_request) */
 static struct HTTPRequest*
 read_request(FILE *in)
 {
@@ -167,9 +154,7 @@ read_request(FILE *in)
     }
     return req;
 }
-/* #@@range_end(read_request) */
 
-/* #@@range_begin(read_request_line) */
 static void
 read_request_line(struct HTTPRequest *req, FILE *in)
 {
@@ -197,9 +182,7 @@ read_request_line(struct HTTPRequest *req, FILE *in)
     p += strlen("HTTP/1.");     /* p (3) */
     req->protocol_minor_version = atoi(p);
 }
-/* #@@range_end(read_request_line) */
 
-/* #@@range_begin(read_header_field) */
 static struct HTTPHeaderField*
 read_header_field(FILE *in)
 {
@@ -225,9 +208,7 @@ read_header_field(FILE *in)
 
     return h;
 }
-/* #@@range_end(read_header_field) */
 
-/* #@@range_begin(upcase) */
 static void
 upcase(char *str)
 {
@@ -237,9 +218,7 @@ upcase(char *str)
         *p = (char)toupper((int)*p);
     }
 }
-/* #@@range_end(upcase) */
 
-/* #@@range_begin(free_request) */
 static void
 free_request(struct HTTPRequest *req)
 {
@@ -258,9 +237,7 @@ free_request(struct HTTPRequest *req)
     free(req->body);
     free(req);
 }
-/* #@@range_end(free_request) */
 
-/* #@@range_begin(content_length) */
 static long
 content_length(struct HTTPRequest *req)
 {
@@ -273,9 +250,7 @@ content_length(struct HTTPRequest *req)
     if (len < 0) log_exit("negative Content-Length value");
     return len;
 }
-/* #@@range_end(content_length) */
 
-/* #@@range_begin(lookup_header_field_value) */
 static char*
 lookup_header_field_value(struct HTTPRequest *req, char *name)
 {
@@ -287,9 +262,7 @@ lookup_header_field_value(struct HTTPRequest *req, char *name)
     }
     return NULL;
 }
-/* #@@range_end(lookup_header_field_value) */
 
-/* #@@range_begin(respond_to) */
 static void
 respond_to(struct HTTPRequest *req, FILE *out, char *docroot)
 {
@@ -302,9 +275,7 @@ respond_to(struct HTTPRequest *req, FILE *out, char *docroot)
     else
         not_implemented(req, out);
 }
-/* #@@range_end(respond_to) */
 
-/* #@@range_begin(do_file_response) */
 static void
 do_file_response(struct HTTPRequest *req, FILE *out, char *docroot)
 {
@@ -342,9 +313,7 @@ do_file_response(struct HTTPRequest *req, FILE *out, char *docroot)
     fflush(out);
     free_fileinfo(info);
 }
-/* #@@range_end(do_file_response) */
 
-/* #@@range_begin(method_not_allowed) */
 static void
 method_not_allowed(struct HTTPRequest *req, FILE *out)
 {
@@ -361,9 +330,7 @@ method_not_allowed(struct HTTPRequest *req, FILE *out)
     fprintf(out, "</html>\r\n");
     fflush(out);
 }
-/* #@@range_end(method_not_allowed) */
 
-/* #@@range_begin(not_implemented) */
 static void
 not_implemented(struct HTTPRequest *req, FILE *out)
 {
@@ -380,9 +347,7 @@ not_implemented(struct HTTPRequest *req, FILE *out)
     fprintf(out, "</html>\r\n");
     fflush(out);
 }
-/* #@@range_end(not_implemented) */
 
-/* #@@range_begin(not_found) */
 static void
 not_found(struct HTTPRequest *req, FILE *out)
 {
@@ -397,9 +362,7 @@ not_found(struct HTTPRequest *req, FILE *out)
     }
     fflush(out);
 }
-/* #@@range_end(not_found) */
 
-/* #@@range_begin(output_common_header_fields) */
 #define TIME_BUF_SIZE 64
 
 static void
@@ -418,9 +381,7 @@ output_common_header_fields(struct HTTPRequest *req, FILE *out, char *status)
     fprintf(out, "Server: %s/%s\r\n", SERVER_NAME, SERVER_VERSION);
     fprintf(out, "Connection: close\r\n");
 }
-/* #@@range_end(output_common_header_fields) */
 
-/* #@@range_begin(get_fileinfo) */
 static struct FileInfo*
 get_fileinfo(char *docroot, char *urlpath)
 {
@@ -436,9 +397,7 @@ get_fileinfo(char *docroot, char *urlpath)
     info->size = st.st_size;
     return info;
 }
-/* #@@range_end(get_fileinfo) */
 
-/* #@@range_begin(build_fspath) */
 static char *
 build_fspath(char *docroot, char *urlpath)
 {
@@ -448,26 +407,20 @@ build_fspath(char *docroot, char *urlpath)
     sprintf(path, "%s/%s", docroot, urlpath);
     return path;
 }
-/* #@@range_end(build_fspath) */
 
-/* #@@range_begin(free_fileinfo) */
 static void
 free_fileinfo(struct FileInfo *info)
 {
     free(info->path);
     free(info);
 }
-/* #@@range_end(free_fileinfo) */
 
-/* #@@range_begin(guess_content_type) */
 static char*
 guess_content_type(struct FileInfo *info)
 {
     return "text/plain";   /* FIXME */
 }
-/* #@@range_end(guess_content_type) */
 
-/* #@@range_begin(xmalloc) */
 static void*
 xmalloc(size_t sz)
 {
@@ -477,9 +430,7 @@ xmalloc(size_t sz)
     if (!p) log_exit("failed to allocate memory");
     return p;
 }
-/* #@@range_end(xmalloc) */
 
-/* #@@range_begin(log_exit) */
 static void
 log_exit(char *fmt, ...)
 {
@@ -491,4 +442,3 @@ log_exit(char *fmt, ...)
     va_end(ap);
     exit(1);
 }
-/* #@@range_end(log_exit) */

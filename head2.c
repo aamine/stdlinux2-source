@@ -3,7 +3,6 @@
 
 static void do_head(FILE *f, long nlines);
 
-/* #@@range_begin(main) */
 int
 main(int argc, char *argv[])
 {
@@ -16,7 +15,7 @@ main(int argc, char *argv[])
     nlines = atol(argv[1]);
     if (argc == 2) {
         do_head(stdin, nlines);
-    } else {    /* ¤³¤ÎÀá¤¬ÄÉ²Ã¤µ¤ì¤¿ */
+    } else {    /* ã“ã®ç¯€ãŒè¿½åŠ ã•ã‚ŒãŸ */
         int i;
 
         for (i = 2; i < argc; i++) {
@@ -33,7 +32,6 @@ main(int argc, char *argv[])
     }
     exit(0);
 }
-/* #@@range_end(main) */
 
 static void
 do_head(FILE *f, long nlines)

@@ -6,10 +6,8 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
-/* #@@range_begin(main) */
 static int open_connection(char *host, char *service);
 
-/* #@@range_begin(maincode) */
 int
 main(int argc, char *argv[])
 {
@@ -28,9 +26,7 @@ main(int argc, char *argv[])
     fputs(buf, stdout);
     exit(0);
 }
-/* #@@range_end(main) */
 
-/* #@@range_begin(open_connection) */
 static int
 open_connection(char *host, char *service)
 {
@@ -62,5 +58,3 @@ open_connection(char *host, char *service)
     freeaddrinfo(res);
     exit(1);
 }
-/* #@@range_end(open_connection) */
-/* #@@range_end(maincode) */

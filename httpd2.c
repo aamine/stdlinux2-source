@@ -38,10 +38,8 @@
 #define BLOCK_BUF_SIZE 1024
 #define LINE_BUF_SIZE 4096
 #define MAX_REQUEST_BODY_LENGTH (1024 * 1024)
-/* #@@range_begin(const_listen) */
 #define MAX_BACKLOG 5
 #define DEFAULT_PORT "80"
-/* #@@range_end(const_listen) */
 
 /****** Data Type Definitions ********************************************/
 
@@ -101,7 +99,6 @@ static void log_exit(const char *fmt, ...);
 
 /****** Functions ********************************************************/
 
-/* #@@range_begin(procopts) */
 #define USAGE "Usage: %s [--port=n] [--chroot --user=u --group=g] [--debug] <docroot>\n"
 
 static int debug_mode = 0;
@@ -170,9 +167,7 @@ main(int argc, char *argv[])
     server_main(server_fd, docroot);
     exit(0);
 }
-/* #@@range_end(procopts) */
 
-/* #@@range_begin(setup_environment) */
 static void
 setup_environment(char *root, char *user, char *group)
 {
@@ -207,9 +202,7 @@ setup_environment(char *root, char *user, char *group)
         exit(1);
     }
 }
-/* #@@range_end(setup_environment) */
 
-/* #@@range_begin(become_daemon) */
 static void
 become_daemon(void)
 {
@@ -225,16 +218,13 @@ become_daemon(void)
     if (n != 0) _exit(0);
     if (setsid() < 0) log_exit("setsid(2) failed: %s", strerror(errno));
 }
-/* #@@range_end(become_daemon) */
 
-/* #@@range_begin(install_signal_handlers) */
 static void
 install_signal_handlers(void)
 {
     trap_signal(SIGTERM, signal_exit);
     detach_children();
 }
-/* #@@range_end(install_signal_handlers) */
 
 static void
 trap_signal(int sig, sighandler_t handler)
@@ -274,7 +264,6 @@ noop_handler(int sig)
     ;
 }
 
-/* #@@range_begin(listen_socket) */
 static int
 listen_socket(char *port)
 {
@@ -306,9 +295,7 @@ listen_socket(char *port)
     log_exit("failed to listen socket");
     return -1;  /* NOT REACH */
 }
-/* #@@range_end(listen_socket) */
 
-/* #@@range_begin(server_main) */
 static void
 server_main(int server_fd, char *docroot)
 {
@@ -320,7 +307,6 @@ server_main(int server_fd, char *docroot)
 
         sock = accept(server_fd, (struct sockaddr*)&addr, &addrlen);
         if (sock < 0) log_exit("accept(2) failed: %s", strerror(errno));
-/* #@@range_begin(fork) */
         pid = fork();
         if (pid < 0) exit(3);
         if (pid == 0) {   /* child */
@@ -330,11 +316,9 @@ server_main(int server_fd, char *docroot)
             service(inf, outf, docroot);
             exit(0);
         }
-/* #@@range_end(fork) */
         close(sock);
     }
 }
-/* #@@range_end(server_main) */
 
 static void
 service(FILE *in, FILE *out, char *docroot)
@@ -648,7 +632,6 @@ xmalloc(size_t sz)
     return p;
 }
 
-/* #@@range_begin(log_exit) */
 static void
 log_exit(const char *fmt, ...)
 {
@@ -665,4 +648,3 @@ log_exit(const char *fmt, ...)
     va_end(ap);
     exit(1);
 }
-/* #@@range_end(log_exit) */

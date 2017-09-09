@@ -6,7 +6,6 @@
 
 static void do_grep(regex_t *pat, FILE *f);
 
-/* #@@range_begin(main) */
 int
 main(int argc, char *argv[])
 {
@@ -45,9 +44,7 @@ main(int argc, char *argv[])
     regfree(&pat);
     exit(0);
 }
-/* #@@range_end(main) */
 
-/* #@@range_begin(do_grep) */
 static void
 do_grep(regex_t *pat, FILE *src)
 {
@@ -59,4 +56,3 @@ do_grep(regex_t *pat, FILE *src)
         }
     }
 }
-/* #@@range_end(do_grep) */

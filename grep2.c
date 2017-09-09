@@ -1,17 +1,5 @@
 /*
-    grep2.c
-
-    (EUC-JP encoding)
-    Âè 8 ¾Ï¤ÎÎý½¬ÌäÂê 1 ¤Î²òÅú¤Ç¤¹¡£
-
-    ¤Ê¤ª¡¢½ñÀÒ (Âè°ìºþ) ¤Ë¤Ï -v ¤È -f ¤ò¼ÂÁõ¤·¤í¤È½ñ¤¤¤Æ¤¢¤ê¤Þ¤¹¤¬
-    ¤³¤ì¤Ï´Ö°ã¤¤¤Ç¡¢°Õ¿Þ¤·¤Æ¤¤¤¿¤Î¤Ï -i ¥ª¥×¥·¥ç¥ó¤Ç¤·¤¿¡£
-    ¤½¤³¤Ç¤³¤Î¥Õ¥¡¥¤¥ë¤Ç¤Ï -v, -f, -i ¤Î»°¤Ä¤ò¼ÂÁõ¤·¤Æ¤¢¤ê¤Þ¤¹¡£
-
-    ¤¿¤À¡¢-f ¥ª¥×¥·¥ç¥ó¤ò¼ÂÁõ¤¹¤ë¤È¤­¤Ë¡ÖÌäÂê 8.2 (Æñ)¡×¤Î¥Æ¡¼¥Þ¤Ç¤¢¤ë
-    ¥Ð¥Ã¥Õ¥¡¤Î¼«Æ°³ÈÄ¥¤¬É¬Í×¤Ë¤Ê¤Ã¤Æ¤·¤Þ¤¤¤Þ¤·¤¿¡£read_file() ¤Ï 8 ¾Ï
-    ¤Þ¤Ç¤Î»þÅÀ¤Ç¤ÏÍý²ò¤Ç¤­¤Ê¤¤¤È»×¤¤¤Þ¤¹¤Î¤Ç¡¢11 ¾Ï¤Î malloc() ¤Î¤¢¤¿¤ê
-    ¤òÆÉ¤ó¤Ç¤«¤é¼è¤êÁÈ¤ó¤Ç¤¯¤À¤µ¤¤¡£
+    grep2.c -- grep command with -i and -v options
 */
 
 #include <stdio.h>
@@ -23,7 +11,6 @@
 
 static void grep_file(regex_t *re, char *path);
 static void grep_stream(regex_t *re, FILE *f);
-static char *read_file(char *path);
 static void die(const char *s);
 
 static int opt_invert = 0;
@@ -39,13 +26,10 @@ main(int argc, char *argv[])
     int i;
     int opt;
 
-    while ((opt = getopt(argc, argv, "if:v")) != -1) {
+    while ((opt = getopt(argc, argv, "iv")) != -1) {
         switch (opt) {
         case 'i':
             opt_ignorecase = 1;
-            break;
-        case 'f':
-            pattern = read_file(optarg);
             break;
         case 'v':
             opt_invert = 1;
@@ -57,18 +41,17 @@ main(int argc, char *argv[])
     }
     argc -= optind;
     argv += optind;
-    if (!pattern) {
-        if (argc < 1) {
-            fputs("no pattern\n", stderr);
-            exit(1);
-        }
-        pattern = argv[0];
-        argc--;
-        argv++;
-    }
 
-    /* re ¤Ï¡ÖÀµµ¬É½¸½ (Regular Expression)¡×¤ÎÎ¬¸ì¡£
-       ¡Öregexp¡×¡Öregex¡×¤Ê¤É¤â¤è¤¯»È¤ï¤ì¤Þ¤¹ */
+    if (argc < 1) {
+        fputs("no pattern\n", stderr);
+        exit(1);
+    }
+    pattern = argv[0];
+    argc--;
+    argv++;
+
+    /* re ã¯ã€Œæ­£è¦è¡¨ç¾ (Regular Expression)ã€ã®ç•¥èªžã€‚
+       ã€Œregexpã€ã€Œregexã€ãªã©ã‚‚ã‚ˆãä½¿ã‚ã‚Œã¾ã™ */
     re_mode = REG_EXTENDED | REG_NOSUB | REG_NEWLINE;
     if (opt_ignorecase) re_mode |= REG_ICASE;
     err = regcomp(&re, argv[0], re_mode);
@@ -91,7 +74,7 @@ main(int argc, char *argv[])
     exit(0);
 }
 
-/* path ¤Ç¼¨¤µ¤ì¤ë¥Õ¥¡¥¤¥ë¤ò grep ¤¹¤ë */
+/* path ã§ç¤ºã•ã‚Œã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ grep ã™ã‚‹ */
 static void
 grep_file(regex_t *re, char *path)
 {
@@ -106,9 +89,9 @@ grep_file(regex_t *re, char *path)
     fclose(f);
 }
 
-/* f ¤Ç¼¨¤µ¤ì¤ë¥¹¥È¥ê¡¼¥à¤ò grep ¤¹¤ë¡£
-   ½ñÀÒ¤Ç¤Ï¡ÖFILE* ¤Ï¥¹¥È¥ê¡¼¥à¤Ê¤ó¤À¡ª¡×¤È»¶¡¹¸À¤Ã¤¿¤¯¤»¤Ë¡¢
-   ÊÑ¿ôÌ¾¤ò f (file ¤ÎÆ¬Ê¸»ú) ¤Ë¤¹¤ë¤¢¤¿¤ê¤¬¼å¤¤¡£ */
+/* f ã§ç¤ºã•ã‚Œã‚‹ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ grep ã™ã‚‹ã€‚
+   æ›¸ç±ã§ã¯ã€ŒFILE* ã¯ã‚¹ãƒˆãƒªãƒ¼ãƒ ãªã‚“ã ï¼ã€ã¨æ•£ã€…è¨€ã£ãŸãã›ã«ã€
+   å¤‰æ•°åã‚’ f (file ã®é ­æ–‡å­—) ã«ã™ã‚‹ã‚ãŸã‚ŠãŒå¼±ã„ã€‚ */
 static void
 grep_stream(regex_t *re, FILE *f)
 {
@@ -124,38 +107,6 @@ grep_stream(regex_t *re, FILE *f)
             fputs(buf, stdout);
         }
     }
-}
-
-/* path ¤Ç¼¨¤µ¤ì¤ë¥Õ¥¡¥¤¥ë¤ÎÆâÍÆÁ´ÂÎ¤òÆÉ¤ß¡¢¤½¤ì¤òÊÖ¤¹ */
-static char *
-read_file(char *path)
-{
-    FILE *f;
-    char *buf;
-    size_t capa = 1024;   /* ¥Ð¥Ã¥Õ¥¡¥µ¥¤¥º */
-    size_t idx;           /* ¸½ºß¤Î¥Ð¥Ã¥Õ¥¡½ñ¤­¹þ¤ß°ÌÃÖ */
-    int c;
-    
-    f = fopen(path, "r");
-    if (!f) {
-        perror(path);
-        exit(1);
-    }
-    buf = malloc(capa);
-    if (!buf) die("malloc");
-    while ((c = getc(f)) != EOF) {
-        /* ¥Ð¥Ã¥Õ¥¡Ä¹¥Á¥§¥Ã¥¯ ('\0' ¤âÆþ¤ì¤ë¤³¤È¤ò¹Í¤¨¤Æ +1 ¤¹¤ë) */
-        if (idx + 1 >= capa) {
-            capa *= 2;
-            buf = realloc(buf, capa);
-            if (!buf) die("realloc");
-        }
-        buf[idx++] = c;
-    }
-    buf[idx++] = '\0';
-    fclose(f);
-
-    return buf;
 }
 
 static void

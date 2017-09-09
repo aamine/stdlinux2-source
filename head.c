@@ -3,7 +3,6 @@
 
 static void do_head(FILE *f, long nlines);
 
-/* #@@range_begin(main) */
 int
 main(int argc, char *argv[])
 {
@@ -14,9 +13,7 @@ main(int argc, char *argv[])
     do_head(stdin, atol(argv[1]));
     exit(0);
 }
-/* #@@range_end(main) */
 
-/* #@@range_begin(do_head) */
 static void
 do_head(FILE *f, long nlines)
 {
@@ -31,4 +28,3 @@ do_head(FILE *f, long nlines)
         }
     }
 }
-/* #@@range_end(do_head) */

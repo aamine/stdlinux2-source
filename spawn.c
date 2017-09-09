@@ -18,13 +18,13 @@ main(int argc, char *argv[])
         fprintf(stderr, "fork(2) failed\n");
         exit(1);
     }
-    if (pid == 0) { /* »Ò¥×¥í¥»¥¹ */
+    if (pid == 0) { /* å­ãƒ—ãƒ­ã‚»ã‚¹ */
         execl(argv[1], argv[1], argv[2], NULL);
-        /* execl()¤ÏÀ®¸ù¤·¤¿¤éÌá¤é¤Ê¤¤¤Î¤Ç¡¢Ìá¤Ã¤¿¤é¤¹¤Ù¤Æ¼ºÇÔ */
+        /* execl()ã¯æˆåŠŸã—ãŸã‚‰æˆ»ã‚‰ãªã„ã®ã§ã€æˆ»ã£ãŸã‚‰ã™ã¹ã¦å¤±æ•— */
         perror(argv[1]);
         exit(99);
     }
-    else {          /* ¿Æ¥×¥í¥»¥¹ */
+    else {          /* è¦ªãƒ—ãƒ­ã‚»ã‚¹ */
         int status;
 
         waitpid(pid, &status, 0);

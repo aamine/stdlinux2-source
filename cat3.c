@@ -1,7 +1,7 @@
 /*
     cat3.c -- read stdin if no argument given.
 
-    Copyright (c) 2005 Minero Aoki
+    Copyright (c) 2017 Minero Aoki
 
     This program is free software.
     Redistribution and use in source and binary forms,

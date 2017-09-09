@@ -1,5 +1,4 @@
 #include <stdio.h>
-/* #@@range_begin(my_getcwd) */
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
@@ -27,7 +26,6 @@ my_getcwd(void)
     free(buf);
     return NULL;
 }
-/* #@@range_end(my_getcwd) */
 
 int
 main(int argc, char *argv[])

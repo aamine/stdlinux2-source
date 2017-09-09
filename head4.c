@@ -1,4 +1,3 @@
-/* #@@range_begin(main) */
 #include <stdio.h>
 #include <stdlib.h>
 /* (1) */
@@ -57,7 +56,6 @@ main(int argc, char *argv[])
     }
     exit(0);
 }
-/* #@@range_end(main) */
 
 static void
 do_head(FILE *f, long nlines)

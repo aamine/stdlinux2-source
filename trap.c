@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-/* #@@range_begin(trap_signal) */
 #include <signal.h>
 
 typedef void (*sighandler_t)(int);
@@ -19,7 +18,6 @@ trap_signal(int sig, sighandler_t handler)
 
     return old.sa_handler;
 }
-/* #@@range_end(trap_signal) */
 
 void
 print_exit(int sig)

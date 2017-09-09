@@ -1,9 +1,7 @@
 /*
-    $Id: grep3.c 527 2005-02-27 05:10:26Z aamine $
+    grep3.c -- grep command without line length limitation
 
-    -- GREP program without line length limitation
-
-    Copyright (c) 2005 Minero Aoki
+    Copyright (c) 2017 Minero Aoki
 
     This program is free software.
     Redistribution and use in source and binary forms,
@@ -70,9 +68,9 @@ do_grep(regex_t *pat, FILE *src)
 static char*
 get_line(FILE *src)
 {
-    unsigned char *line;   /* ¥Ğ¥Ã¥Õ¥¡ */
-    size_t capa = 160;     /* ¥Ğ¥Ã¥Õ¥¡¥µ¥¤¥º */
-    size_t idx = 0;        /* ¸½ºß¤Î¥Ğ¥Ã¥Õ¥¡½ñ¤­¹ş¤ß°ÌÃÖ */
+    unsigned char *line;   /* ãƒãƒƒãƒ•ã‚¡ */
+    size_t capa = 160;     /* ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º */
+    size_t idx = 0;        /* ç¾åœ¨ã®ãƒãƒƒãƒ•ã‚¡æ›¸ãè¾¼ã¿ä½ç½® */
     int c;
 
     line = malloc(capa);
@@ -80,7 +78,7 @@ get_line(FILE *src)
     while ((c = getc(src)) != EOF) {
         if (c == '\n')
             break;
-        if (idx == capa - 1) {   /* ¥Ğ¥Ã¥Õ¥¡Ä¹¥Á¥§¥Ã¥¯ */
+        if (idx == capa - 1) {   /* ãƒãƒƒãƒ•ã‚¡é•·ãƒã‚§ãƒƒã‚¯ */
             capa *= 2;
             line = realloc(line, capa);
             if (!line) die("realloc");
