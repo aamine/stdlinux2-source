@@ -7,7 +7,7 @@ TARGETS = hello echo args bell \
         tail tail2 \
         wc-l-stdio wc-l-syscall \
 	grep grep2 grep3 wgrep slice slice2 \
-        ls rm mkdir rmdir ln symlink mv stat touch chmod chown chgrp \
+        ls ls2 rm mkdir rmdir ln symlink mv stat touch chmod chown chgrp \
 	spawn \
         pwd pwd2 sleep timefmt isatty env \
 	httpd \

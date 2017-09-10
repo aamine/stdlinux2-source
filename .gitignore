@@ -42,6 +42,7 @@ isatty
 ln
 logging
 ls
+ls2
 mapwrite
 mapwrite.data
 memmon
