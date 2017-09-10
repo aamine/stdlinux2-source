@@ -2,7 +2,7 @@ CC       = gcc
 CFLAGS   = -g -Wall -Wno-parentheses
 CPPFLAGS =
 TARGETS = hello echo args bell \
-	cat0 cat cat2 cat3 cat-escape cat4 \
+	cat0 cat cat2 cat3 cat-escape cat4 cat5 \
 	head head2 head3 \
         tail tail2 \
         wc-l-stdio wc-l-syscall \
