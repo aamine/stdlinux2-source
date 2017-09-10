@@ -68,6 +68,7 @@ strftime
 strto
 symlink
 tail
+tail2
 timefmt
 times
 touch
@@ -75,7 +76,8 @@ trap
 traverse
 unsignedchar
 user
-wcl
+wc-l-stdio
+wc-l-syscall
 wgrep
 slice
 slice2

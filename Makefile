@@ -5,7 +5,7 @@ TARGETS = hello echo args bell \
 	cat0 cat cat2 cat3 cat-escape cat4 \
 	head head2 head3 \
         tail tail2 \
-        wcl \
+        wc-l-stdio wc-l-syscall \
 	grep grep2 grep3 wgrep slice slice2 \
         ls rm mkdir rmdir ln symlink mv stat touch chmod chown chgrp \
 	spawn \
