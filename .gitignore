@@ -21,6 +21,7 @@ daytime
 daytimed
 dupread
 echo
+echoclient
 env
 feof-bug
 ferror-test

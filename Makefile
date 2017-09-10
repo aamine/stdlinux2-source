@@ -13,7 +13,8 @@ TARGETS = hello echo args bell \
 	httpd \
 	sh1 sh2 \
 	user id logging \
-	sizeof dupread feof-bug ferror-test exec sig daytime \
+	sizeof dupread feof-bug ferror-test exec sig \
+        daytime echoclient \
 	progname array strto segv trap mapwrite memmon \
 	getcperf strftime unsignedchar catdir times \
 	sigqueue-test showenv traverse daytimed \
