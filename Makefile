@@ -1,24 +1,19 @@
 CC       = gcc
 CFLAGS   = -g -Wall -Wno-parentheses
 CPPFLAGS =
-TARGETS = hello echo args bell \
-	cat0 cat cat2 cat3 cat-escape cat4 cat5 \
-	head head2 head3 \
-        tail tail2 \
+TARGETS = hello echo segv args bell \
+	cat0 cat cat2 cat3 cat-escape cat4 cat5 getcperf feof-bug \
         wc-l-stdio wc-l-syscall \
-	grep grep2 grep3 wgrep slice slice2 \
-        ls ls2 rm mkdir mkpath rmdir ln symlink mv stat touch chmod chown chgrp \
-	spawn \
-        pwd pwd2 sleep timefmt isatty env \
-	httpd \
-	sh1 sh2 \
-	user id logging \
-	sizeof dupread feof-bug ferror-test exec sig \
-        daytime echoclient \
-	progname array strto segv trap mapwrite memmon \
-	getcperf strftime unsignedchar catdir times \
-	sigqueue-test showenv traverse daytimed \
-	show-vmmap namemax getctty head4 pwd3 httpd2
+	head head2 head3 head4 \
+        tail tail2 \
+	grep grep2 grep3 array wgrep slice slice2 \
+        ls ls2 catdir rm mkdir mkpath rmdir ln symlink mv stat touch chmod chown chgrp traverse \
+        mapwrite \
+	exec spawn dupread sh1 sh2 \
+        sig sigqueue-test isatty trap \
+        pwd pwd2 pwd3 env showenv user id timefmt strftime \
+        daytime daytimed echoclient \
+	httpd httpd2 logging
 
 DLLIB    = -ldl
 NETLIB   =
