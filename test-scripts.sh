@@ -205,9 +205,9 @@ assert_equal    'head -n 5 head.c'      './head4 --lines=5 < head.c'
 assert_equal    'head -n 999 head.c'    './head4 --lines=999 < head.c'
 fi
 
-assert_equal    'tail -0 tail.c'      './tail 0 < tail.c'
-assert_equal    'tail -5 tail.c'      './tail 5 < tail.c'
-assert_equal    'tail -999 tail.c'    './tail 999 < tail.c'
+assert_equal    'tail -0 tail.c'      './tail2 0 < tail.c'
+assert_equal    'tail -5 tail.c'      './tail2 5 < tail.c'
+assert_equal    'tail -999 tail.c'    './tail2 999 < tail.c'
 
 assert_equal    'grep close head.c'         './grep close head.c'
 assert_equal    'grep NOTMATCH head.c'      './grep NOTMATCH head.c'
@@ -225,10 +225,6 @@ assert_equal    'grep -v NOTMATCH head.c'   './grep2 -v NOTMATCH head.c'
 assert_equal    'grep CLOSE head.c'         './grep2 CLOSE head.c'
 assert_equal    'grep -i CLOSE head.c'      './grep2 -i CLOSE head.c'
 assert_equal    './grep2 -i close head.c'   './grep2 -i cLoSe head.c'
-print "close" > grep2-tmp
-assert_equal    'grep -f grep2-tmp head.c'  './grep2 -f grep2-tmp head.c'
-print "" > grep2-tmp
-assert_equal    'grep -f grep2-tmp head.c'  './grep2 -f grep2-tmp head.c'
 
 assert_equal    'grep close head.c'         './grep3 close head.c'
 assert_equal    'grep NOTMATCH head.c'      './grep3 NOTMATCH head.c'
@@ -288,20 +284,19 @@ assert_equal    "id | awk '{print \$1}'"     "./id | awk '{print \$1}'"
 assert_equal    "id | awk '{print \$2}'"     "./id | awk '{print \$2}'"
 
 assert_equal_stdout 'find .'            './traverse .'
-assert_equal_stdout 'find ..'           './traverse ..'
 
 print '' > tc.tmp
-assert_stdout   "0"                     './wcl tc.tmp'
+assert_stdout   "0"                     './wc-l-stdio tc.tmp'
 print 'a' > tc.tmp
-assert_stdout   "1"                     './wcl tc.tmp'
+assert_stdout   "1"                     './wc-l-stdio tc.tmp'
 echo 'a' > tc.tmp
-assert_stdout   "1"                     './wcl tc.tmp'
+assert_stdout   "1"                     './wc-l-stdio tc.tmp'
 echo 'a' > tc.tmp
 print 'b' >> tc.tmp
-assert_stdout   "2"                     './wcl tc.tmp'
+assert_stdout   "2"                     './wc-l-stdio tc.tmp'
 echo 'a' > tc.tmp
 echo 'b' >> tc.tmp
-assert_stdout   "2"                     './wcl tc.tmp'
+assert_stdout   "2"                     './wc-l-stdio tc.tmp'
 rm -f tc.tmp
 
 test_finished
