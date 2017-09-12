@@ -211,11 +211,9 @@ lstat(2)の使用例。</dd>
 
 <dt>shlib/*</dt>
 <dd>共有ライブラリを作成する例 [Linux only]</dd>
-</dl>
 
 <dt>link/*</dt>
 <dd>ライブラリのダイナミックリンクとダイナミックロードの例 [Linux only]</dd>
-</dl>
 
 <dt>tail.c</dt>
 <dd>問題11-1の解答例。
