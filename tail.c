@@ -48,7 +48,8 @@ tail(FILE *f)
     }
 
     // Flush ring buffer
-    for (int n = N_LINES; n > 0 && n_read_lines; n--, n_read_lines--) {
+    int n;
+    for (n = N_LINES; n > 0 && n_read_lines; n--, n_read_lines--) {
         printf("%s", ring_buffer[curr]);
         RING_BUFFER_INC(curr);
     }

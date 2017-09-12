@@ -11,7 +11,6 @@
 
 static void grep_file(regex_t *re, char *path);
 static void grep_stream(regex_t *re, FILE *f);
-static void die(const char *s);
 
 static int opt_invert = 0;
 static int opt_ignorecase = 0;
@@ -19,13 +18,7 @@ static int opt_ignorecase = 0;
 int
 main(int argc, char *argv[])
 {
-    char *pattern = NULL;
-    regex_t re;
-    int re_mode;
-    int err;
-    int i;
     int opt;
-
     while ((opt = getopt(argc, argv, "iv")) != -1) {
         switch (opt) {
         case 'i':
@@ -35,7 +28,7 @@ main(int argc, char *argv[])
             opt_invert = 1;
             break;
         case '?':
-            fprintf(stderr, "Usage: %s [-iv] [-f PATTERN] [<file>...]\n", argv[0]);
+            fprintf(stderr, "Usage: %s [-iv] [<file>...]\n", argv[0]);
             exit(1);
         }
     }
@@ -46,15 +39,16 @@ main(int argc, char *argv[])
         fputs("no pattern\n", stderr);
         exit(1);
     }
-    pattern = argv[0];
+    char *pattern = argv[0];
     argc--;
     argv++;
 
     /* re は「正規表現 (Regular Expression)」の略語。
        「regexp」「regex」などもよく使われます */
-    re_mode = REG_EXTENDED | REG_NOSUB | REG_NEWLINE;
+    int re_mode = REG_EXTENDED | REG_NOSUB | REG_NEWLINE;
     if (opt_ignorecase) re_mode |= REG_ICASE;
-    err = regcomp(&re, argv[0], re_mode);
+    regex_t re;
+    int err = regcomp(&re, pattern, re_mode);
     if (err != 0) {
         char buf[1024];
 
@@ -66,6 +60,7 @@ main(int argc, char *argv[])
         grep_stream(&re, stdin);
     }
     else {
+        int i;
         for (i = 0; i < argc; i++) {
             grep_file(&re, argv[i]);
         }
@@ -107,11 +102,4 @@ grep_stream(regex_t *re, FILE *f)
             fputs(buf, stdout);
         }
     }
-}
-
-static void
-die(const char *s)
-{
-    perror(s);
-    exit(1);
 }

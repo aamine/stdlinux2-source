@@ -39,7 +39,6 @@ main(int argc, char *argv[])
 static int
 open_connection(char *host, char *service)
 {
-    int sock;
     struct addrinfo hints, *res, *ai;
     int err;
 
@@ -51,7 +50,7 @@ open_connection(char *host, char *service)
         exit(1);
     }
     for (ai = res; ai; ai = ai->ai_next) {
-        sock = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
+        int sock = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
         if (sock < 0) {
             continue;
         }

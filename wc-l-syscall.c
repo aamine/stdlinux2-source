@@ -36,15 +36,14 @@ main(int argc, char *argv[])
 static void
 do_word_count(int fd, const char *path)
 {
-    unsigned char buf[BUFFER_SIZE];
     unsigned long count = 0;
-    int n;
-
     for (;;) {
-        n = read(fd, buf, sizeof buf);
+        unsigned char buf[BUFFER_SIZE];
+        int n = read(fd, buf, sizeof buf);
         if (n < 0) die(path);
         if (n == 0) break;
-        for (unsigned long i = 0; i < BUFFER_SIZE; i++) {
+        unsigned long i;
+        for (i = 0; i < BUFFER_SIZE; i++) {
             if (buf[i] == '\n') {
                 count++;
             }
