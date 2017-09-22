@@ -43,7 +43,7 @@ do_word_count(int fd, const char *path)
         if (n < 0) die(path);
         if (n == 0) break;
         unsigned long i;
-        for (i = 0; i < BUFFER_SIZE; i++) {
+        for (i = 0; i < n; i++) {
             if (buf[i] == '\n') {
                 count++;
             }
