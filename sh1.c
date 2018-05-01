@@ -98,7 +98,7 @@ parse_cmd(char *cmdline)
         if (*p) {
             if (cmd->capa <= cmd->argc + 1) {   /* +1 for final NULL */
                 cmd->capa *= 2;
-                cmd->argv = xrealloc(cmd->argv, cmd->capa);
+                cmd->argv = xrealloc(cmd->argv, sizeof(char*) * cmd->capa);
             }
             cmd->argv[cmd->argc] = p;
             cmd->argc++;
