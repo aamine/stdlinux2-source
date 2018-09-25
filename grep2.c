@@ -28,7 +28,7 @@ main(int argc, char *argv[])
             opt_invert = 1;
             break;
         case '?':
-            fprintf(stderr, "Usage: %s [-iv] [<file>...]\n", argv[0]);
+            fprintf(stderr, "Usage: %s [-iv] pattern [<file>...]\n", argv[0]);
             exit(1);
         }
     }
